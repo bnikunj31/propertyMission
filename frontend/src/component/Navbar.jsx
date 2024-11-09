@@ -40,6 +40,7 @@ const Navbar = () => {
     sessionStorage.removeItem("token");
     setIsAuthenticated(false);
     navigate("/Signin");
+    window.location.reload();
   };
 
   const toggleMenu = () => {

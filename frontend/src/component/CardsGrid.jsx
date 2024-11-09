@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import "../Style/Loader.css"; // Import the CSS file for the loader
 
 // Cards component
 const Cards = ({ card }) => {
@@ -8,6 +9,13 @@ const Cards = ({ card }) => {
 
   const handleReadMore = () => {
     navigate(`/property/${card._id}`);
+  };
+
+  const truncateDescription = (htmlString, maxLength) => {
+    const plainText = htmlString.replace(/<[^>]+>/g, "");
+    return plainText.length > maxLength
+      ? plainText.substring(0, maxLength) + "..."
+      : plainText;
   };
 
   return (
@@ -22,7 +30,7 @@ const Cards = ({ card }) => {
             className="card-img-top img-fluid h-60"
             loading="lazy"
             decoding="async"
-            src={card.property_images[0]} // Assuming the first image is the primary one
+            src={card.property_images[0]}
             alt={card.name}
           />
         </a>
@@ -31,7 +39,9 @@ const Cards = ({ card }) => {
           <p className="card-text">{card.location}</p>
           <p
             className="card-text"
-            dangerouslySetInnerHTML={{ __html: card.description }}
+            dangerouslySetInnerHTML={{
+              __html: truncateDescription(card.description, 50),
+            }}
           ></p>
           <p className="card-text">
             <strong>Type:</strong> {card.type}
@@ -62,7 +72,6 @@ const CardsGrid = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch data from API when component mounts
   useEffect(() => {
     const fetchProperties = async () => {
       try {
@@ -71,11 +80,11 @@ const CardsGrid = () => {
           throw new Error("Failed to fetch properties");
         }
         const data = await response.json();
-        setCards(data); // Set the fetched data to state
+        setCards(data);
       } catch (error) {
-        setError(error.message); // Set error message if any error occurs
+        setError(error.message);
       } finally {
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false);
       }
     };
 
@@ -83,11 +92,15 @@ const CardsGrid = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading message while data is being fetched
+    return (
+      <div className="loader-container">
+        <div className="custom-spinner"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>; // Show error message if any error occurs
+    return <div>Error: {error}</div>;
   }
 
   return (

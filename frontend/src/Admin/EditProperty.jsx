@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import {
   Box,
   TextField,
@@ -21,8 +23,8 @@ const EditProperty = () => {
   const navigate = useNavigate();
 
   // Fetching propertyData from location state with optional chaining
-    const propertyData = location.state?.property || {};
-    console.log(propertyData)
+  const propertyData = location.state?.property || {};
+  console.log(propertyData);
 
   // State variables for form fields
   const [name, setName] = useState(propertyData.name || "");
@@ -42,7 +44,7 @@ const EditProperty = () => {
     propertyData.property_video || ""
   );
   const [price, setPrice] = useState(propertyData.price || "");
-  const [area, setArea] = useState(propertyData.area || ""); // Ensure area is set correctly
+  const [area, setArea] = useState(propertyData.area || "");
   const [propertyLocation, setPropertyLocation] = useState(
     propertyData.location || ""
   );
@@ -79,7 +81,7 @@ const EditProperty = () => {
 
   // Update area whenever propertyData changes
   useEffect(() => {
-    setArea(propertyData.area || ""); // Update state if propertyData changes
+    setArea(propertyData.area || "");
   }, [propertyData]);
 
   // Form validation
@@ -184,18 +186,18 @@ const EditProperty = () => {
               margin="normal"
             />
           </Grid>
+
+          {/* Use ReactQuill for the description field */}
           <Grid item xs={12}>
-            <TextField
-              id="description"
+            <label htmlFor="description">Description</label>
+            <ReactQuill
+              theme="snow"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              label="Description"
-              variant="standard"
-              fullWidth
-              required
-              margin="normal"
+              onChange={setDescription}
+              
             />
           </Grid>
+
           <Grid item xs={12}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
@@ -212,7 +214,6 @@ const EditProperty = () => {
                   Property Images
                   <VisuallyHiddenInput
                     type="file"
-                    inputProps={{ multiple: true }}
                     onChange={handleFileChange(setPropertyImages)}
                     multiple
                   />
@@ -232,7 +233,6 @@ const EditProperty = () => {
                   Property Map
                   <VisuallyHiddenInput
                     type="file"
-                    inputProps={{ multiple: true }}
                     onChange={handleFileChange(setPropertyMap)}
                     multiple
                   />
@@ -252,7 +252,6 @@ const EditProperty = () => {
                   Location Map
                   <VisuallyHiddenInput
                     type="file"
-                    inputProps={{ multiple: true }}
                     onChange={handleFileChange(setPropertyLocationMap)}
                     multiple
                   />
@@ -260,6 +259,7 @@ const EditProperty = () => {
               </Grid>
             </Grid>
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               id="propertyVideo"
@@ -271,6 +271,7 @@ const EditProperty = () => {
               margin="normal"
             />
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               id="price"
@@ -284,19 +285,21 @@ const EditProperty = () => {
               margin="normal"
             />
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               id="area"
               value={area}
-              onChange={(e) => setArea(e.target.value)} // Bind area state
+              onChange={(e) => setArea(e.target.value)}
               label="Area"
-              type="text" // Adjust as needed (text or number)
+              type="text"
               variant="standard"
               fullWidth
               required
               margin="normal"
             />
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               id="location"
@@ -309,6 +312,7 @@ const EditProperty = () => {
               margin="normal"
             />
           </Grid>
+
           <Grid item xs={6}>
             <FormControl variant="standard" fullWidth required>
               <InputLabel id="type-label">Property Type</InputLabel>
@@ -319,17 +323,11 @@ const EditProperty = () => {
                 onChange={(e) => setType(e.target.value)}
                 label="Property Type"
               >
-                {propertyTypes.length > 0 ? (
-                  propertyTypes.map((propertyType) => (
-                    <MenuItem key={propertyType._id} value={propertyType._id}>
-                      {propertyType.typeName}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem value="" disabled>
-                    No property types available
+                {propertyTypes.map((propertyType) => (
+                  <MenuItem key={propertyType._id} value={propertyType._id}>
+                    {propertyType.name}
                   </MenuItem>
-                )}
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -346,17 +344,18 @@ const EditProperty = () => {
               >
                 <MenuItem value="available">Available</MenuItem>
                 <MenuItem value="sold">Sold</MenuItem>
-                <MenuItem value="pending">Pending</MenuItem>
+                <MenuItem value="rented">Rented</MenuItem>
               </Select>
             </FormControl>
           </Grid>
+
           <Grid item xs={12}>
             <Button
               type="submit"
               variant="contained"
               color="primary"
               fullWidth
-              sx={{ marginTop: 2 }}
+              sx={{ mt: 3 }}
             >
               Update Property
             </Button>

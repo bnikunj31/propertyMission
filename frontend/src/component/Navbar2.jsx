@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/logo1.jpg";
+import logo from "../assets/logo.png";
 
 const Navbar2 = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -26,7 +26,9 @@ const Navbar2 = () => {
     sessionStorage.removeItem("userRole");
     setIsAuthenticated(false);
     navigate("/Signin");
-  };
+    window.location.reload();
+};
+
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -43,9 +45,9 @@ const Navbar2 = () => {
             <img
               src={logo}
               alt="RealEstate Logo"
-              className="object-contain w-auto h-10 md:h-12 lg:h-14"
+              className="object-contain w-40 h-auto md:h-12 lg:h-14"
             />
-            <span className="text-sm">Property Mission</span>
+            {/* <span className="text-sm">Property Mission</span> */}
           </span>
         </Link>
 

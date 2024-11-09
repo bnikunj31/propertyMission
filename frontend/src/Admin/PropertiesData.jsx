@@ -16,7 +16,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,7 +28,7 @@ const PropertiesData = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const headers = [
     "Name",
@@ -65,7 +65,7 @@ const PropertiesData = () => {
   const totalPages = Math.ceil(rows.length / rowsPerPage);
 
   const handleEdit = (row) => {
-    navigate("/edit/property", { state: { property: row } }); // Navigate with row data
+    navigate("/edit/property", { state: { property: row } });
   };
 
   const handleDeleteDialogOpen = (id) => {
@@ -90,6 +90,12 @@ const PropertiesData = () => {
     }
   };
 
+  // Utility function to strip HTML tags
+  const stripHtmlTags = (htmlString) => {
+    const doc = new DOMParser().parseFromString(htmlString, "text/html");
+    return doc.body.textContent || "";
+  };
+
   // Carousel component with fade effect
   const ImageCarousel = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -97,7 +103,7 @@ const PropertiesData = () => {
     useEffect(() => {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 3000); // Change image every 3 seconds
+      }, 3000);
       return () => clearInterval(interval);
     }, [images.length]);
 
@@ -147,9 +153,9 @@ const PropertiesData = () => {
                 <TableRow key={index}>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>
-                    {row.description && row.description.length > 50
-                      ? `${row.description.slice(0, 50)}...`
-                      : row.description}
+                    {row.description
+                      ? `${stripHtmlTags(row.description).slice(0, 50)}...`
+                      : "N/A"}
                   </TableCell>
                   <TableCell>
                     {row.property_images && row.property_images.length > 0 ? (
@@ -197,7 +203,7 @@ const PropertiesData = () => {
                     <Button
                       variant="outlined"
                       color="primary"
-                      onClick={() => handleEdit(row)} // Pass the entire row data
+                      onClick={() => handleEdit(row)}
                       sx={{ mr: 1 }}
                     >
                       Edit
