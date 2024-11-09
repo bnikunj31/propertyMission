@@ -1,0 +1,163 @@
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
+import axios from "axios";
+
+const Navbar = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!sessionStorage.getItem("token")
+  );
+  const [categories, setCategories] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(!!sessionStorage.getItem("token"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("/api/property/propertyTypeAdd");
+        setCategories(response.data.propertyTypes);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    setIsAuthenticated(false);
+    navigate("/Signin");
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  return (
+    <nav className="border-b mb-5 border-gray-200 bg-[#2c3e50] dark:border-gray-700">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
+        <Link to="/" className="flex items-center">
+          <img
+            src={logo}
+            alt="RealEstate Logo"
+            className=" w-40 h-auto md:h-12"
+            tabIndex="-1"
+          />
+        </Link>
+
+        <button
+          type="button"
+          onClick={toggleMenu}
+          className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none"
+          aria-controls="navbar"
+          aria-expanded={isMenuOpen ? "true" : "false"}
+        >
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="w-6 h-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+
+        <div
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } w-full md:block md:w-auto`}
+          id="navbar"
+        >
+          <ul className="flex flex-col items-center  space-y-4 font-medium md:flex-row md:space-x-8 md:space-y-0">
+            <li>
+              <Link to="/" className="px-3 py-2 text-white hover:text-blue-500">
+                HOME
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about"
+                className="px-3 py-2 text-white hover:text-blue-500"
+              >
+                ABOUT
+              </Link>
+            </li>
+            <li className="relative group">
+              <span className="px-3 py-2 text-white cursor-pointer hover:text-blue-500">
+                All Categories
+              </span>
+              <ul className="absolute hidden w-48 mt-2 bg-gray-700 p-1 rounded-lg shadow-lg group-hover:block">
+                {categories.map((category) => (
+                  <li key={category._id}>
+                    <Link
+                      to={`/category/${category.type_name}`}
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white"
+                    >
+                      {category.type_name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+            <li>
+              <Link
+                to="/contact"
+                className="px-3 py-2 text-white hover:text-blue-500"
+              >
+                Contact
+              </Link>
+            </li>
+
+            {isAuthenticated ? (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="px-3 py-2 text-white hover:text-blue-500"
+                >
+                  Logout
+                </button>
+              </li>
+            ) : (
+              <li className="flex">
+                <Link
+                  to="/Register"
+                  className="px-3 py-2 text-white hover:text-blue-500"
+                >
+                  Signup
+                </Link>
+                <Link
+                  to="/Signin"
+                  className="px-3 py-2 text-white hover:text-blue-500"
+                >
+                  Signin
+                </Link>
+              </li>
+            )}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
