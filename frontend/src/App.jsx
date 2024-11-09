@@ -22,7 +22,9 @@ import PropertiesData from "./Admin/PropertiesData.jsx";
 import EditProperty from "./Admin/EditProperty.jsx";
 
 import CardsGrid from "./component/CardsGrid.jsx";
-
+import ProductCard from "./Admin/ImageCard.jsx";
+import MediaTekCard from "./Admin/ImageCard.jsx";
+import ImageCard from "./Admin/ImageCard.jsx";
 const App = () => {
   const [role, setRole] = useState(null);
 
@@ -47,6 +49,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/Otp_verify" element={<OTPPage />} />
             <Route path="/" element={<CardsGrid />} />
+            <Route path="/cards" element={<ImageCard />} />
 
             {/* Admin Routes */}
             <Route

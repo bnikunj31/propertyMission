@@ -107,7 +107,7 @@ const Navbar = () => {
               <span className="px-3 py-2 text-white cursor-pointer hover:text-blue-500">
                 All Categories
               </span>
-              <ul className="absolute hidden w-48 mt-2 bg-gray-700 p-1 rounded-lg shadow-lg group-hover:block">
+              <ul className="absolute hidden w-48 mt-2 bg-gray-700 p-1 rounded-lg shadow-lg group-hover:block z-10">
                 {categories.map((category) => (
                   <li key={category._id}>
                     <Link
