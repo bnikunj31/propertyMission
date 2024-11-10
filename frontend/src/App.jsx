@@ -25,8 +25,6 @@ import CardsGrid from "./component/CardsGrid.jsx";
 import ProductCard from "./Admin/ImageCard.jsx";
 import MediaTekCard from "./Admin/ImageCard.jsx";
 import ImageCard from "./Admin/ImageCard.jsx";
-import Forgot from "./component/Forgot.jsx";
-// import ImageGallery from "./component/ImageGallery.jsx";
 const App = () => {
   const [role, setRole] = useState(null);
 
@@ -53,7 +51,6 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/Otp_verify" element={<OTPPage />} />
             <Route path="/cards" element={<ImageCard />} />
-            {/* <Route path="/ImageGallery" element={<ImageGallery />} /> */}
 
             {/* Admin Routes */}
             <Route
