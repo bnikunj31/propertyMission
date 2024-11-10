@@ -13,6 +13,7 @@ import OTPPage from "./component/OTPpage.jsx";
 import AddCategory from "./component/AddCategory.jsx";
 import PropertyForm from "./component/PropertyForm.jsx";
 import ProtectedRoute from "./component/ProtectedRoute.jsx";
+import Forgot from "./component/Forgot.jsx";
 import UsersData from "./Admin/UsersData.jsx";
 import UpdateUserForm from "./Admin/UpdateUserForm.jsx";
 import CategoryData from "./Admin/CategoryData.jsx";
@@ -22,9 +23,9 @@ import PropertiesData from "./Admin/PropertiesData.jsx";
 import EditProperty from "./Admin/EditProperty.jsx";
 
 import CardsGrid from "./component/CardsGrid.jsx";
-import ProductCard from "./Admin/ImageCard.jsx";
-import MediaTekCard from "./Admin/ImageCard.jsx";
-import ImageCard from "./Admin/ImageCard.jsx";
+import ImageCard from "./component/ImageCard.jsx";
+import VerifyForgot from "./component/VerifyForgot.JSX";
+
 const App = () => {
   const [role, setRole] = useState(null);
 
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/Otp_verify" element={<OTPPage />} />
             <Route path="/cards" element={<ImageCard />} />
+            <Route path="/forgotVerify" element={<VerifyForgot />} />
 
             {/* Admin Routes */}
             <Route

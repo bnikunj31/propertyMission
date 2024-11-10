@@ -14,6 +14,7 @@ const OTPPage = () => {
     const generateOtp = async () => {
       try {
         const response = await axios.get(`/api/users/otp`);
+        console.log(response);
         if (response.status === 200) {
           toast.info("OTP sent to your email!");
         } else {
@@ -21,6 +22,7 @@ const OTPPage = () => {
         }
       } catch (error) {
         console.error("Error fetching OTP:", error);
+        alert(error)
         toast.error("An error occurred while fetching OTP.");
       }
     };

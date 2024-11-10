@@ -20,13 +20,14 @@ const Forgot = () => {
     }
 
     setLoading(true);
-    sessionStorage.setItem("email", email);
 
     try {
       const response = await axios.post("/api/users/forgot", { email });
+      sessionStorage.setItem("email", response.data.email);
+      sessionStorage.setItem("otp", response.data.otp);
       if (response.status === 200) {
         toast.success("Check your email.");
-        navigate("/Otp_verify");
+        navigate("/forgotVerify");
       } else {
         toast.error("An error occurred, please try again later");
       }

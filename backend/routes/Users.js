@@ -8,6 +8,7 @@ const {
   updateUser,
   deleteUser,
   forgotPass,
+  updatePass,
 } = require("../controllers/Users");
 const { userValidatorRules } = require("../validators/UserValidator");
 const hashedPassword = require("../middlewares/passwordHashing");
@@ -19,5 +20,6 @@ router.post("/login", login);
 router.route("/fetch").get(fetchUsers);
 router.route("/:id").patch(updateUser).delete(deleteUser);
 router.route("/forgot").post(forgotPass);
+router.route("/updatePassword").post(updatePass);
 
 module.exports = router;

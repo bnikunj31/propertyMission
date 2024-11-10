@@ -3,12 +3,16 @@ import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signin = () => {
   const [email_phone, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   sessionStorage.removeItem("userRole");
+
   const validateForm = () => {
     if (!password) {
       toast.error("Password is required.");
@@ -80,13 +84,13 @@ const Signin = () => {
                 aria-label="Email Address"
               />
             </div>
-            <div className="flex flex-col justify-between mt-4">
+            <div className="relative flex flex-col justify-between mt-4">
               <label className="block mb-2 text-sm font-bold text-gray-700">
                 Password
               </label>
               <input
                 className="block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded focus:outline-2 focus:outline-blue-700"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -98,6 +102,17 @@ const Signin = () => {
               >
                 Forget Password?
               </a>
+
+              <div
+                className="absolute transform -translate-y-1/2 cursor-pointer right-4 top-1/2"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <FaEyeSlash size={20} color="#4B5563" />
+                ) : (
+                  <FaEye size={20} color="#4B5563" />
+                )}
+              </div>
             </div>
             <button
               className="w-full px-4 py-2 mt-8 font-bold text-white bg-blue-700 rounded hover:bg-blue-600"
@@ -106,7 +121,6 @@ const Signin = () => {
               Login
             </button>
           </form>
-          {/* Other UI elements */}
         </div>
       </div>
     </div>

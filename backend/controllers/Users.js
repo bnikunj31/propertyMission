@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 const User = require("../models/Users");
 const jwt = require("jsonwebtoken");
+const { findOneAndUpdate } = require("../models/PropertyTypes");
 
 // Node Mailer Configurations
 const transporter = nodemailer.createTransport({
@@ -47,7 +48,6 @@ exports.getOTP = async (req, res) => {
     if (req.session.user.email) {
       const email = req.session.user.email;
     }
-    console.log(req.session.email);
     const otp = generateOTP();
     if (!otp) {
       return res.status(400).json({ msg: "Failed to generate OTP." });
@@ -205,19 +205,70 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.forgotPass = async (req, res) => {
-  console.log(req.body);
   const { email } = req.body;
+  req.session.email = email;
   existingUser = await User.findOne({ email });
   if (!existingUser) {
     return res.status(400).json({ msg: "No user found." });
   }
-  req.session.email = email;
+  const otp = generateOTP();
   if (!req.session.email) {
     return res
       .status(400)
       .json({ msg: "Currently Unavailable Please Try Again Later." });
   }
-  return res.status(200).json(req.session.email);
+  console.log(req.session.email, existingUser.username);
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Property Mission 24/7 Verification",
+    html: `<h1><b>Password reset request.</b></h1>
+        <br/>
+        <p>Here is your OTP to reset your password: ${otp}</p>
+        <br/>
+        <p>Never Share Your OTP and Password with anyone.</p>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      if (!res.headersSent) {
+        return res.status(500).json({ error: "Error sending OTP via email" });
+      }
+    }
+  });
+  req.session.otp = otp;
+  return res.status(200).json({ email, otp });
+};
+exports.updatePass = async (req, res) => {
+  try {
+    const { newPassword, otp } = req.body;
+    console.log(req.body);
+    if (req.session.otp != otp) {
+      return res.status(400).json({ msg: "Invalid OTP" });
+    }
+    const user = await User.findOne({ email: req.session.email });
+    if (!user) {
+      return res.status(400).json({ msg: "No user found." });
+    }
+    const encryptedPassword = await bcrypt.hash(newPassword, 10);
+    if (!encryptedPassword) {
+      return res
+        .status(400)
+        .json({ msg: "Unable to change password please try again later." });
+    }
+    const updatedUser = await User.findOneAndUpdate(
+      { email: req.session.email },
+      { password: encryptedPassword },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(400).json({ msg: "Password update failed." });
+    }
+    return res.status(200).json({ msg: "Password updated successfully." });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "Internal Server Error." });
+  }
 };
 
 //                                Pending                                //
