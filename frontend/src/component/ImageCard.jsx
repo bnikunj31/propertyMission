@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 function ImageCard() {
   // Array of image URLs (replace with your own URLs or import the images)
@@ -18,10 +18,11 @@ function ImageCard() {
   };
 
   return (
-    <div className="items-center h-full bg-white p-4">
-      <div className="bg-transparent border border-danger p-4 flex flex-col md:flex-row w-full">
+    
+    <div className="items-center h-full p-4 bg-white">
+      <div className="flex flex-col w-full p-4 bg-transparent border border-danger md:flex-row">
         {/* Thumbnails on the left side */}
-        <div className="flex flex-col space-y-2 mr-4 w-full sm:w-24 md:w-32 lg:w-40">
+        <div className="flex flex-col w-full mr-4 space-y-2 sm:w-24 md:w-32 lg:w-40">
           {images.map((image, index) => (
             <img
               key={index}
@@ -40,12 +41,12 @@ function ImageCard() {
           <img
             src={mainImage}
             alt="Main"
-            className="w-full h-96 object-cover rounded-md"
+            className="object-cover w-full rounded-md h-96"
           />
         </div>
 
         {/* Description on the right side */}
-        <div className="mt-4 md:mt-0 md:ml-4 w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+        <div className="w-full mt-4 md:mt-0 md:ml-4 sm:w-3/4 md:w-2/3 lg:w-1/2">
   <table className="table table-bordered" style={{ maxHeight: "250px", overflowY: "auto" }}>
     <thead >
       <tr>
@@ -73,14 +74,7 @@ function ImageCard() {
 </div>
 
       </div>
-      <div>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad quam
-          possimus cupiditate nostrum corrupti repellat distinctio. Iste
-          perferendis, modi, dolore illum eveniet ratione optio quas facere non,
-          accusamus ut! Laborum.
-        </p>
-      </div>
+   
     </div>
   );
 }

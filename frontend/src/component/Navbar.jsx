@@ -47,14 +47,18 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
-    <nav className="border-b mb-5 border-gray-200 bg-[#2c3e50] dark:border-gray-700">
-      <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-        <Link to="/" className="flex items-center">
+    <nav className="border-b mb-2 border-gray-200 bg-[#2c3e50] dark:border-gray-700">
+      <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-2 mx-auto">
+        <Link to="/" className="flex items-center" onClick={closeMenu}>
           <img
             src={logo}
             alt="RealEstate Logo"
-            className=" w-40 h-auto md:h-12"
+            className="w-40 h-auto md:h-12"
             tabIndex="-1"
           />
         </Link>
@@ -89,9 +93,13 @@ const Navbar = () => {
           } w-full md:block md:w-auto`}
           id="navbar"
         >
-          <ul className="flex flex-col items-center  space-y-4 font-medium md:flex-row md:space-x-8 md:space-y-0">
+          <ul className="flex flex-col items-center space-y-4 font-medium md:flex-row md:space-x-8 md:space-y-0">
             <li>
-              <Link to="/" className="px-3 py-2 text-white hover:text-blue-500">
+              <Link
+                to="/"
+                className="px-3 py-2 text-white hover:text-blue-500"
+                onClick={closeMenu}
+              >
                 HOME
               </Link>
             </li>
@@ -99,6 +107,7 @@ const Navbar = () => {
               <Link
                 to="/about"
                 className="px-3 py-2 text-white hover:text-blue-500"
+                onClick={closeMenu}
               >
                 ABOUT
               </Link>
@@ -107,12 +116,13 @@ const Navbar = () => {
               <span className="px-3 py-2 text-white cursor-pointer hover:text-blue-500">
                 All Categories
               </span>
-              <ul className="absolute hidden w-48 mt-2 bg-gray-700 p-1 rounded-lg shadow-lg group-hover:block z-10">
+              <ul className="absolute z-10 hidden w-48 p-1 mt-2 bg-gray-700 rounded-lg shadow-lg group-hover:block">
                 {categories.map((category) => (
                   <li key={category._id}>
                     <Link
                       to={`/category/${category.type_name}`}
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white"
+                      onClick={closeMenu}
                     >
                       {category.type_name}
                     </Link>
@@ -124,6 +134,7 @@ const Navbar = () => {
               <Link
                 to="/contact"
                 className="px-3 py-2 text-white hover:text-blue-500"
+                onClick={closeMenu}
               >
                 Contact
               </Link>
@@ -132,7 +143,10 @@ const Navbar = () => {
             {isAuthenticated ? (
               <li>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => {
+                    handleLogout();
+                    closeMenu();
+                  }}
                   className="px-3 py-2 text-white hover:text-blue-500"
                 >
                   Logout
@@ -143,12 +157,14 @@ const Navbar = () => {
                 <Link
                   to="/Register"
                   className="px-3 py-2 text-white hover:text-blue-500"
+                  onClick={closeMenu}
                 >
                   Signup
                 </Link>
                 <Link
                   to="/Signin"
                   className="px-3 py-2 text-white hover:text-blue-500"
+                  onClick={closeMenu}
                 >
                   Signin
                 </Link>

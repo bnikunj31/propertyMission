@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-import "../Style/Loader.css"; // Import the CSS file for the loader
+import "../Style/Loader.css";
 
 // Cards component
 const Cards = ({ card }) => {
   const navigate = useNavigate();
 
   const handleReadMore = () => {
-    navigate(`/property/${card._id}`);
+    navigate(`/property/${card._id}`, { state: { card } });
   };
 
   const truncateDescription = (htmlString, maxLength) => {
@@ -19,7 +19,7 @@ const Cards = ({ card }) => {
   };
 
   return (
-    <div className="mb-4 col-lg-3 col-md-4 col-sm-6 px-3">
+    <div className="px-3 mb-4 col-lg-3 col-md-4 col-sm-6">
       <div className="card h-100">
         <a
           href={card.property_images[0]}
@@ -49,7 +49,7 @@ const Cards = ({ card }) => {
           <p className="card-text">
             <strong>Price:</strong> ₹{card.price}
           </p>
-          <div className="d-flex justify-between">
+          <div className="d-flex justify-content-between">
             <p className="card-text">
               <strong>Area:</strong> {card.area}
             </p>
