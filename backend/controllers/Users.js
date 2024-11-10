@@ -44,7 +44,10 @@ exports.signup = async (req, res) => {
 
 exports.getOTP = async (req, res) => {
   try {
-    const email = req.session.user.email;
+    if (req.session.user.email) {
+      const email = req.session.user.email;
+    }
+    console.log(req.session.email);
     const otp = generateOTP();
     if (!otp) {
       return res.status(400).json({ msg: "Failed to generate OTP." });
@@ -200,6 +203,24 @@ exports.deleteUser = async (req, res) => {
     return res.json({ msg: "Internal Server Error." });
   }
 };
+
+exports.forgotPass = async (req, res) => {
+  console.log(req.body);
+  const { email } = req.body;
+  existingUser = await User.findOne({ email });
+  if (!existingUser) {
+    return res.status(400).json({ msg: "No user found." });
+  }
+  req.session.email = email;
+  if (!req.session.email) {
+    return res
+      .status(400)
+      .json({ msg: "Currently Unavailable Please Try Again Later." });
+  }
+  return res.status(200).json(req.session.email);
+};
+
+//                                Pending                                //
 
 //?                              Functions                              //
 // Checking Validations

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./component/Navbar.jsx";
 import Navbar2 from "./component/Navbar2.jsx";
 import Footer from "./component/Footer.jsx";
-import Home from "./component/Home.jsx";
+// import Home from "./component/Home.jsx";
 import About from "./component/About.jsx";
 import Contact from "./component/Contact.jsx";
 import Register from "./component/Register.jsx";
@@ -25,6 +25,8 @@ import CardsGrid from "./component/CardsGrid.jsx";
 import ProductCard from "./Admin/ImageCard.jsx";
 import MediaTekCard from "./Admin/ImageCard.jsx";
 import ImageCard from "./Admin/ImageCard.jsx";
+import Forgot from "./component/Forgot.jsx";
+// import ImageGallery from "./component/ImageGallery.jsx";
 const App = () => {
   const [role, setRole] = useState(null);
 
@@ -43,13 +45,15 @@ const App = () => {
           <Routes>
             {/* Public Routes */}
             {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/" element={<CardsGrid />} />
             <Route path="/about" element={<About />} />
+            <Route path="/forgot-password" element={<Forgot />} />
             <Route path="/Signin" element={<Signin />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/Otp_verify" element={<OTPPage />} />
-            <Route path="/" element={<CardsGrid />} />
             <Route path="/cards" element={<ImageCard />} />
+            {/* <Route path="/ImageGallery" element={<ImageGallery />} /> */}
 
             {/* Admin Routes */}
             <Route
