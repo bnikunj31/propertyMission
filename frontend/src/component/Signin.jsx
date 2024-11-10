@@ -93,7 +93,7 @@ const Signin = () => {
                 aria-label="Password"
               />
               <a
-                href="#"
+                href="/forgot-password"
                 className="w-full mt-2 text-xs text-gray-500 hover:text-gray-900 text-end"
               >
                 Forget Password?
