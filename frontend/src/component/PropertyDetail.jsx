@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import "../Style/PropertyDetail.css";
 const PropertyDetail = () => {
-  const location = useLocation();
-  const { card } = location.state || {};
+  const { state } = useLocation(); // Access the state passed by navigate
+  const [property, setProperty] = useState(state?.card || null); // Use the passed card data
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  if (!card) {
+  useEffect(() => {
+    if (!property) {
+      // If property data is not passed via state, fetch it
+      setLoading(true);
+      const fetchPropertyData = async () => {
+        try {
+          const response = await fetch(`/api/property/fetch/${id}`);
+          if (response.status === 200) {
+            const data = await response.json();
+            setProperty(data);
+          } else {
+            throw new Error("Failed to fetch property details.");
+          }
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchPropertyData();
+    }
+  }, [property]); // Fetch only if no property data passed
+
+  if (loading) {
+    return <div>Loading property data...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!property) {
     return <div>No property data available.</div>;
   }
 
@@ -21,8 +55,8 @@ const PropertyDetail = () => {
     status,
     property_map,
     property_video,
-  } = card;
-
+  } = property;
+  const videoId = property_video.split("v=")[1];
   return (
     <div className="container py-5">
       {/* Property Title and Location */}
@@ -89,9 +123,7 @@ const PropertyDetail = () => {
           <h3>Description</h3>
           <div
             className="description"
-            dangerouslySetInnerHTML={{
-              __html: description,
-            }}
+            dangerouslySetInnerHTML={{ __html: description }}
           ></div>
         </div>
       </div>
@@ -143,9 +175,9 @@ const PropertyDetail = () => {
             <div className="mb-4">
               <h4>Property Video</h4>
               <iframe
+                src={`https://www.youtube.com/embed/${videoId}`}
                 width="100%"
                 height="400"
-                src="https://youtu.be/ZotqhhY2OHE?si=SFBVWDAuXXKML45d"
                 title="Property Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

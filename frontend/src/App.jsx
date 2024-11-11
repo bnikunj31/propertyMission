@@ -25,6 +25,7 @@ import EditProperty from "./Admin/EditProperty.jsx";
 import CardsGrid from "./component/CardsGrid.jsx";
 import ImageCard from "./component/ImageCard.jsx";
 import VerifyForgot from "./component/VerifyForgot.JSX";
+import PropertyDetail from "./component/PropertyDetail.jsx";
 
 const App = () => {
   const [role, setRole] = useState(null);
@@ -35,6 +36,39 @@ const App = () => {
     setRole(storedRole);
   }, []);
 
+  // // Disable right-click
+  // document.addEventListener("contextmenu", (event) => event.preventDefault());
+
+  // // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, and Ctrl+U
+  // document.onkeydown = (event) => {
+  //   if (
+  //     event.key === "F12" ||
+  //     (event.ctrlKey &&
+  //       event.shiftKey &&
+  //       (event.key === "I" || event.key === "J")) ||
+  //     (event.ctrlKey && event.key === "U")
+  //   ) {
+  //     event.preventDefault();
+  //   }
+  // };
+
+  // const detectDevToolsByConsole = () => {
+  //   const startTime = new Date();
+
+  //   debugger; // This triggers a pause if DevTools is open
+  //   const endTime = new Date();
+
+  //   // If DevTools is open, the `debugger` statement causes a noticeable delay
+  //   if (endTime - startTime > 100) {
+  //     alert("DevTools are open. Please close them to continue.");
+  //     sessionStorage.clear();
+  //     window.location.href = "/Signin";
+  //   }
+  // };
+
+  // Run this at regular intervals
+  // setInterval(detectDevToolsByConsole, 0);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Router>
@@ -44,15 +78,16 @@ const App = () => {
           <Routes>
             {/* Public Routes */}
             {/* <Route path="/" element={<Home />} /> */}
-            <Route path="/" element={<CardsGrid />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/forgot-password" element={<Forgot />} />
-            <Route path="/Signin" element={<Signin />} />
-            <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/Otp_verify" element={<OTPPage />} />
-            <Route path="/cards" element={<ImageCard />} />
+            <Route path="/Signin" element={<Signin />} />
+            <Route path="/forgot-password" element={<Forgot />} />
             <Route path="/forgotVerify" element={<VerifyForgot />} />
+            <Route path="/" element={<CardsGrid />} />
+            <Route path="/cards" element={<ImageCard />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/Property/:id" element={<PropertyDetail />} />
 
             {/* Admin Routes */}
             <Route
