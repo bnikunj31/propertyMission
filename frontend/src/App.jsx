@@ -20,11 +20,11 @@ import UpdateCategory from "./Admin/UpdateCategory.jsx";
 import Enquires from "./Admin/Enquires.jsx";
 import PropertiesData from "./Admin/PropertiesData.jsx";
 import EditProperty from "./Admin/EditProperty.jsx";
-
+import Forgot from "./component/Forgot.jsx"
 import CardsGrid from "./component/CardsGrid.jsx";
-import ProductCard from "./Admin/ImageCard.jsx";
-import MediaTekCard from "./Admin/ImageCard.jsx";
-import ImageCard from "./Admin/ImageCard.jsx";
+
+
+import ImageCard from './component/ImageCard';
 const App = () => {
   const [role, setRole] = useState(null);
 
