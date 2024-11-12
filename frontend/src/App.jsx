@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CryptoJS from "crypto-js";
 
 import Navbar from "./component/Navbar.jsx";
 import Navbar2 from "./component/Navbar2.jsx";
@@ -28,19 +27,22 @@ import CardsGrid from "./component/CardsGrid.jsx";
 import ImageCard from "./component/ImageCard.jsx";
 import VerifyForgot from "./component/VerifyForgot.JSX";
 import PropertyDetail from "./component/PropertyDetail.jsx";
+import SpeedDial from "./component/SpeedDial.jsx";
+import CategoriesCards from "./component/CategoriesCards.jsx";
+// import CategoryPage from "./component/.jsx"
 
 const App = () => {
   const [role, setRole] = useState(null);
 
-  useEffect(() => {
-    const encryptedData = sessionStorage.getItem("userRole");
-    const decryptedData = CryptoJS.AES.decrypt(
-      encryptedData,
-      "your-secret-key"
-    ).toString(CryptoJS.enc.Utf8);
+  // useEffect(() => {
+  //   const encryptedData = sessionStorage.getItem("userRole");
+  //   const decryptedData = CryptoJS.AES.decrypt(
+  //     encryptedData,
+  //     "your-secret-key"
+  //   ).toString(CryptoJS.enc.Utf8);
 
-    setRole(decryptedData);
-  }, []);
+  //   setRole(decryptedData);
+  // }, []);
 
   // // Disable right-click
   // document.addEventListener("contextmenu", (event) => event.preventDefault());
@@ -93,7 +95,8 @@ const App = () => {
             <Route path="/cards" element={<ImageCard />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/Property/:id" element={<PropertyDetail />} />
+            {/* <Route path="/Property/:id" element={<PropertyDetail />} /> */}
+            <Route path="/category/:categoryId" element={<CategoriesCards />} />
 
             {/* Admin Routes */}
             <Route
@@ -178,7 +181,7 @@ const App = () => {
             />
           </Routes>
         </div>
-
+        <SpeedDial />
         <Footer />
       </Router>
     </div>

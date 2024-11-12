@@ -120,7 +120,7 @@ const Navbar = () => {
                 {categories.map((category) => (
                   <li key={category._id}>
                     <Link
-                      to={`/category/${category.type_name}`}
+                      to={`/category/${category._id}`}
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white"
                       onClick={closeMenu}
                     >

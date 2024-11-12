@@ -7,6 +7,7 @@ const {
   getProperties,
   deleteProperty,
   addCategory,
+  getCategoriesedProperties,
 } = require("../controllers/Property");
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.route("/:id").patch(updateType).delete(deleteType);
 router.route("/propertyAdd").post(addProperty);
 router.route("/fetch").get(getProperties);
 router.route("/action/:id").delete(deleteProperty);
+router.route("/fetch/:id").get(getCategoriesedProperties);
 
 module.exports = router;

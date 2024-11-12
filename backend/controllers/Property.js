@@ -237,4 +237,20 @@ exports.getProperties = async (req, res) => {
   }
 };
 
+
 //?                          Pending                          //
+exports.getCategoriesedProperties = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const properties = await Property.find({ type: category }).lean();
+    if (!properties) {
+      return res.status(404).json({ msg: "No Properties Found." });
+      
+    }
+    return res.status(200).json(properties);
+
+    
+  } catch (error) {
+    return res.status(500).json({ msg: "Internal server error " });
+  }
+}

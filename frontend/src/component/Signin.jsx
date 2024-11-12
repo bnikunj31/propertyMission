@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import CryptoJS from "crypto-js";
+
 const secretKey = "your-secret-key"; // Use a secure key and keep it private
 
 const Signin = () => {
