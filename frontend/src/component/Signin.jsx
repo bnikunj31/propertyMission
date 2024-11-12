@@ -40,15 +40,21 @@ const Signin = () => {
           // sessionStorage.setItem("userRole", user.role);
           // sessionStorage.setItem("token", token);
 
-          const encryptedRole = CryptoJS.AES.encrypt(user.role, secretKey).toString();
-  const encryptedToken = CryptoJS.AES.encrypt(token, secretKey).toString();
+          const encryptedRole = CryptoJS.AES.encrypt(
+            user.role,
+            secretKey
+          ).toString();
+          const encryptedToken = CryptoJS.AES.encrypt(
+            token,
+            secretKey
+          ).toString();
 
-  // const encryptedData = sessionStorage.getItem("secureData");
-  // const decryptedData = CryptoJS.AES.decrypt(encryptedData, "secret-key").toString(CryptoJS.enc.Utf8);
-  
-  sessionStorage.setItem("userRole", encryptedRole);
+          // const encryptedData = sessionStorage.getItem("secureData");
+          // const decryptedData = CryptoJS.AES.decrypt(encryptedData, "secret-key").toString(CryptoJS.enc.Utf8);
+
+          sessionStorage.setItem("userRole", encryptedRole);
           sessionStorage.setItem("token", encryptedToken);
-          
+
           if (user.role === "admin") {
             navigate("/admin");
           } else if (user.role === "user") {

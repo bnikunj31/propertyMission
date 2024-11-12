@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   TextField,
@@ -15,7 +15,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // import quill's CSS for the editor
+import "react-quill/dist/quill.snow.css";
 
 const PropertyForm = () => {
   const VisuallyHiddenInput = styled("input")({
@@ -29,6 +29,7 @@ const PropertyForm = () => {
     whiteSpace: "nowrap",
     width: 1,
   });
+  const quillRef = useRef(null);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -153,6 +154,19 @@ const PropertyForm = () => {
       }
     }
   };
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["bold", "italic", "underline"],
+      ["link"],
+      ["image"], // The built-in image button
+      [{ color: [] }, { background: [] }],
+      ["blockquote", "code-block"],
+      ["clean"], // Clear formatting button
+    ],
+  };
 
   const handleFileChange = (setter) => (event) => {
     const files = Array.from(event.target.files);
@@ -176,6 +190,7 @@ const PropertyForm = () => {
             <TextField
               id="name"
               value={name}
+              ref={quillRef}
               onChange={(e) => setName(e.target.value)}
               label="Property Name"
               variant="standard"
@@ -186,6 +201,7 @@ const PropertyForm = () => {
           </Grid>
           <Grid item xs={12}>
             <ReactQuill
+              modules={modules}
               value={description}
               onChange={setDescription}
               placeholder="Enter property description"

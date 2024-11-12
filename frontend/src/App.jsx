@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CryptoJS from "crypto-js";
+
 import Navbar from "./component/Navbar.jsx";
 import Navbar2 from "./component/Navbar2.jsx";
 import Footer from "./component/Footer.jsx";
@@ -31,9 +33,13 @@ const App = () => {
   const [role, setRole] = useState(null);
 
   useEffect(() => {
-    // Retrieve the role from sessionStorage
-    const storedRole = sessionStorage.getItem("userRole");
-    setRole(storedRole);
+    const encryptedData = sessionStorage.getItem("userRole");
+    const decryptedData = CryptoJS.AES.decrypt(
+      encryptedData,
+      "your-secret-key"
+    ).toString(CryptoJS.enc.Utf8);
+
+    setRole(decryptedData);
   }, []);
 
   // // Disable right-click

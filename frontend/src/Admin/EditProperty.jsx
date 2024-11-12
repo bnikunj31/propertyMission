@@ -64,6 +64,20 @@ const EditProperty = () => {
     width: 1,
   });
 
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ align: [] }],
+      ["bold", "italic", "underline"],
+      ["link"],
+      ["image"], // The built-in image button
+      [{ color: [] }, { background: [] }],
+      ["blockquote", "code-block"],
+      ["clean"], // Clear formatting button
+    ],
+  };
+
   // Fetch property types on component mount
   useEffect(() => {
     const fetchPropertyTypes = async () => {
@@ -191,10 +205,10 @@ const EditProperty = () => {
           <Grid item xs={12}>
             <label htmlFor="description">Description</label>
             <ReactQuill
-              theme="snow"
+              modules={modules}
               value={description}
               onChange={setDescription}
-              
+              placeholder="Edit your Property"
             />
           </Grid>
 
@@ -318,14 +332,14 @@ const EditProperty = () => {
               <InputLabel id="type-label">Property Type</InputLabel>
               <Select
                 labelId="type-label"
-                id="type"
+                id="type" 
                 value={type}
                 onChange={(e) => setType(e.target.value)}
                 label="Property Type"
               >
                 {propertyTypes.map((propertyType) => (
                   <MenuItem key={propertyType._id} value={propertyType._id}>
-                    {propertyType.name}
+                    {propertyType.type_name}
                   </MenuItem>
                 ))}
               </Select>

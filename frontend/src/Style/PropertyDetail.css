@@ -1,59 +1,58 @@
-/* Custom CSS for Property Detail Page */
-.property-title {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #2c3e50;
+/* Ensure the carousel item fades smoothly */
+.carousel-item {
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
 }
 
-.property-location {
-  font-size: 1.25rem;
-  color: #7f8c8d;
-}
-
-.property-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #34495e;
-}
-
-.property-price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #e74c3c;
-}
-
-.carousel-item img {
-  max-height: 500px;
-  object-fit: cover;
-}
-
-.card-body ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.card-body ul li {
-  margin-bottom: 10px;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.property-map img {
+/* This ensures images inside the carousel are also responsive */
+.carousel-inner {
+  position: relative;
   width: 100%;
-  height: auto;
-  border-radius: 8px;
+  overflow: hidden;
 }
 
-iframe {
-  border-radius: 8px;
+/* Make sure the items inside the carousel slide */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  transition: none !important; /* Disable transition for active item */
 }
 
-.loading,
-.error {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #e74c3c;
+/* Fade animation */
+.carousel-fade .carousel-item {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
+
+.carousel-fade .carousel-item-next,
+.carousel-fade .carousel-item-prev,
+.carousel-fade .carousel-item.active {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Sliding effect */
+.carousel-inner {
+  display: flex;
+  transition: transform 1s ease-in-out; /* Smooth sliding transition */
+}
+
+.carousel-item {
+  flex: 0 0 100%;  /* Ensure each item takes full width of carousel */
+}
+
+/* Optionally, you can set the transform for sliding the items */
+.carousel-item-next,
+.carousel-item-prev {
+  transform: translateX(100%);
+}
+
+.carousel-item-next.carousel-item-left,
+.carousel-item-prev.carousel-item-right {
+  transform: translateX(0);
+}
+
+.carousel-item-next.carousel-item-right,
+.carousel-item-prev.carousel-item-left {
+  transform: translateX(-100%);
+}
+

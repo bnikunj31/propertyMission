@@ -53,13 +53,15 @@ const Cards = ({ card }) => {
             <p className="card-text">
               <strong>Area:</strong> {card.area}
             </p>
-            <button
-              className="btn btn-outline-secondary"
+            
+          </div>
+          <button
+              className="mt-2 btn w-100 btn-outline-secondary"
               onClick={handleReadMore}
+              
             >
               Read More
             </button>
-          </div>
         </div>
       </div>
     </div>
