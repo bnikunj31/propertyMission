@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const path = require("path");
 const fs = require("fs");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
@@ -217,14 +218,16 @@ exports.getProperties = async (req, res) => {
       return res.status(404).json({ msg: "No Properties Found." });
     }
 
-    const propertyTypes = await PropertyType.find({ _id: { $in: properties.map(p => p.type) } });
+    const propertyTypes = await PropertyType.find({
+      _id: { $in: properties.map((p) => p.type) },
+    });
 
     const typeMapping = propertyTypes.reduce((acc, propertyType) => {
       acc[propertyType._id] = propertyType.type_name;
       return acc;
     }, {});
 
-    properties.forEach(property => {
+    properties.forEach((property) => {
       if (typeMapping[property.type]) {
         property.type = typeMapping[property.type];
       }
@@ -237,20 +240,21 @@ exports.getProperties = async (req, res) => {
   }
 };
 
-
 //?                          Pending                          //
-exports.getCategoriesedProperties = async (req, res) => {
+exports.getCategorizeProperties = async (req, res) => {
   try {
-    const { category } = req.params;
-    const properties = await Property.find({ type: category }).lean();
+    const { id } = req.params;
+    const objectId = new mongoose.Types.ObjectId(id);
+    if (!objectId) {
+      return res.status(400).json({ message: "Something went wrong." });
+    }
+    const properties = await Property.find({ type: objectId }).lean();
     if (!properties) {
-      return res.status(404).json({ msg: "No Properties Found." });
-      
+      return res.status(404).json({ message: "No Properties Found." });
     }
     return res.status(200).json(properties);
-
-    
   } catch (error) {
-    return res.status(500).json({ msg: "Internal server error " });
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error " });
   }
-}
+};

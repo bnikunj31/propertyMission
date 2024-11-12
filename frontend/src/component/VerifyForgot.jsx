@@ -94,7 +94,7 @@ const VerifyForgot = () => {
           </div>
 
           <div className="relative mb-4">
-            <label className="block mb-2 text-sm font-medium text-gray-700">
+            <label className="block mb--2 text-sm font-medium text-gray-700">
               Verify New Password
             </label>
             <input

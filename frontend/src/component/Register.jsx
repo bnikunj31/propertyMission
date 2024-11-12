@@ -82,16 +82,20 @@ const Register = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      const { displayName, email } = user;
+      console.log(result);
+      console.log(result.user);
+      const { displayName, email, accessToken } = user;
 
       toast.success("Google Sign-In successful!");
-      
+
       // Store user data in sessionStorage
       sessionStorage.setItem("name", displayName);
       sessionStorage.setItem("email", email);
-      
-      // Navigate to the OTP verification page or any other page
+      const token = accessToken;
+      sessionStorage.setItem("token", token);
+
       navigate("/");
+      location.reload();
     } catch (error) {
       toast.error("Google Sign-In failed.");
       console.error("Google Sign-In Error:", error);
@@ -110,10 +114,14 @@ const Register = () => {
           }}
         ></div>
         <div className="w-full p-8 lg:w-1/2">
-          <p className="text-xl text-center text-gray-600">Create your account</p>
+          <p className="text-xl text-center text-gray-600">
+            Create your account
+          </p>
           <form onSubmit={handleSignup} className="mt-4">
             <div className="mb-4">
-              <label className="block mb-2 text-sm font-bold text-gray-700">Name</label>
+              <label className="block mb-2 text-sm font-bold text-gray-700">
+                Name
+              </label>
               <input
                 className="block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded focus:outline-2 focus:outline-blue-700"
                 type="text"
@@ -123,7 +131,9 @@ const Register = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-2 text-sm font-bold text-gray-700">Email Address</label>
+              <label className="block mb-2 text-sm font-bold text-gray-700">
+                Email Address
+              </label>
               <input
                 className="block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded focus:outline-2 focus:outline-blue-700"
                 type="email"
@@ -133,7 +143,9 @@ const Register = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-2 text-sm font-bold text-gray-700">Phone</label>
+              <label className="block mb-2 text-sm font-bold text-gray-700">
+                Phone
+              </label>
               <input
                 className="block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded focus:outline-2 focus:outline-blue-700"
                 type="text"
@@ -143,7 +155,9 @@ const Register = () => {
               />
             </div>
             <div className="relative mb-4">
-              <label className="block mb-2 text-sm font-bold text-gray-700">Password</label>
+              <label className="block mb-2 text-sm font-bold text-gray-700">
+                Password
+              </label>
               <input
                 className="block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded focus:outline-2 focus:outline-blue-700"
                 type={showPassword ? "text" : "password"}
@@ -161,7 +175,9 @@ const Register = () => {
               </button>
             </div>
             <div className="relative mb-4">
-              <label className="block mb-2 text-sm font-bold text-gray-700">Confirm Password</label>
+              <label className="block mb-2 text-sm font-bold text-gray-700">
+                Confirm Password
+              </label>
               <input
                 className="block w-full px-4 py-2 text-gray-700 border border-gray-300 rounded focus:outline-2 focus:outline-blue-700"
                 type={showConfirmPassword ? "text" : "password"}
