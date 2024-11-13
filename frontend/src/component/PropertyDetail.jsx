@@ -75,7 +75,7 @@ const PropertyDetail = () => {
         id="propertyImagesCarousel"
         className="carousel slide carousel-fade"
         data-bs-ride="carousel"
-        data-bs-interval="5000"
+        data-bs-interval="2000"
       >
         <div className="carousel-inner">
           {property_images.map((image, index) => (

@@ -48,6 +48,7 @@ const PropertiesData = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("/api/property/fetch");
+      console.log(response.data);
       setRows(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);

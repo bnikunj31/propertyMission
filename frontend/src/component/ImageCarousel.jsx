@@ -6,19 +6,19 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 const ImageCarousel = () => {
   const carouselItems = [
     {
-      img: 'https://www.vidyard.com/media/real-estate-video-marketing-1920x1080-1.jpg',
-      title: 'Luxury Family Home',
-      subtitle: 'Spacious 5-bedroom house in the heart of the city',
+      img: "https://www.vidyard.com/media/real-estate-video-marketing-1920x1080-1.jpg",
+      title: "Luxury Family Home",
+      subtitle: "Spacious 5-bedroom house in the heart of the city",
     },
     {
-      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2q9pPndZZvF1qwN5M5kLx1P50T9j9qrtJlw&s',
-      title: 'Modern Apartment',
-      subtitle: 'Stylish 2-bedroom apartment with city skyline views',
+      img: "https://readytomoveflatsinchandigarh.in/wp-content/uploads/2021/01/House-for-sale-in-Chandigarh-1162x480.png",
+      title: "Modern Apartment",
+      subtitle: "Stylish 2-bedroom apartment with city skyline views",
     },
     {
-      img: 'https://img.freepik.com/free-photo/hotel_1127-4035.jpg?ga=GA1.1.1699207593.1729144514&semt=ais_hybrid',
-      title: 'Beachfront Villa',
-      subtitle: 'A beautiful villa with stunning sea views and private access',
+      img: "https://img.freepik.com/free-photo/hotel_1127-4035.jpg?ga=GA1.1.1699207593.1729144514&semt=ais_hybrid",
+      title: "Beachfront Villa",
+      subtitle: "A beautiful villa with stunning sea views and private access",
     },
   ];
 

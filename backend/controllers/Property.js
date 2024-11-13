@@ -258,3 +258,13 @@ exports.getCategorizeProperties = async (req, res) => {
     return res.status(500).json({ message: "Internal server error " });
   }
 };
+
+exports.updateProperty = async (req, res) => {
+  try {
+    console.log("Params", req.params);
+    console.log("Body", req.body);
+    console.log("Files", req.files);
+  } catch (err) {
+    return res.status(500).json({ message: "Internal Server Error." });
+  }
+};
