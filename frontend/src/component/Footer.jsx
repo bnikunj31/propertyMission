@@ -4,7 +4,6 @@ import logo from "../assets/FooterLogo.png";
 const Footer = () => {
   return (
     <footer className="pt-8 bg-gray-100 border-t border-gray-300 mt-4 sm:mt-0">
-
       <div className="container grid grid-cols-1 gap-8 px-6 mx-auto sm:grid-cols-2 lg:grid-cols-4 lg:px-16">
         {/* Company Info */}
         <div className="text-center lg:text-left">
@@ -51,27 +50,19 @@ const Footer = () => {
 
         {/* More Links */}
         <div className="text-center lg:text-left">
-          <h3 className="mb-4 text-lg font-bold">More Links</h3>
+          <h3 className="mb-4 text-lg font-bold">More Services</h3>
           <ul className="space-y-2">
             <li>
-              <a href="/" className="hover:underline">
-                Privacy Policy
-              </a>
+              <p>Privacy Policy</p>
             </li>
             <li>
-              <a href="/terms" className="hover:underline">
-                Terms of Service
-              </a>
+              <p>Terms of Service</p>
             </li>
             <li>
-              <a href="/faq" className="hover:underline">
-                FAQs
-              </a>
+              <p>FAQs</p>
             </li>
             <li>
-              <a href="/support" className="hover:underline">
-                Support
-              </a>
+              <p>Support</p>
             </li>
           </ul>
         </div>

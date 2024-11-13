@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { auth, provider } from "../Google/config"; // Ensure the correct path to your Firebase config
 import { signInWithPopup } from "firebase/auth";
-
+import "../Style/register.css";
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -82,8 +82,6 @@ const Register = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log(result);
-      console.log(result.user);
       const { displayName, email, accessToken } = user;
 
       toast.success("Google Sign-In successful!");
@@ -91,19 +89,18 @@ const Register = () => {
       // Store user data in sessionStorage
       sessionStorage.setItem("name", displayName);
       sessionStorage.setItem("email", email);
-      const token = accessToken;
-      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("token", accessToken);
 
       navigate("/");
       location.reload();
-    } catch (error) {
+    } catch (error) { 
       toast.error("Google Sign-In failed.");
       console.error("Google Sign-In Error:", error);
     }
   };
 
   return (
-<div className="flex items-center justify-center w-full h-screen px-0 sm:px-5">
+    <div className="flex items-center justify-center w-full h-screen px-5 sm:px-10 md:px-20  lg:px-32 ">
       <ToastContainer />
       <div className="flex w-full max-w-sm overflow-hidden bg-white border rounded-lg shadow-lg lg:max-w-4xl">
         <div
@@ -224,11 +221,15 @@ const Register = () => {
           </form>
 
           <div className="mt-4">
-            <button
-              onClick={handleGoogleSignIn}
-              className="flex items-center justify-center w-full px-4 py-2 text-white bg-red-600 rounded-lg shadow-md hover:bg-red-500"
-            >
+            {/* <button className="flex items-center justify-center w-full px-4 py-2 text-white bg-red-600 rounded-lg shadow-md hover:bg-red-500">
               <span className="mr-2">Sign in with Google</span>
+            </button> */}
+            <button
+              type="button"
+              class="login-with-google-btn flex items-center justify-center w-full px-4 py-2"
+              onClick={handleGoogleSignIn}
+            >
+              Sign in with Google
             </button>
           </div>
         </div>
