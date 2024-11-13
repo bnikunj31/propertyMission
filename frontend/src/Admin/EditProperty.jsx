@@ -98,14 +98,6 @@ const EditProperty = () => {
       toast.error("Please enter a description.");
       return false;
     }
-    if (propertyImages.length === 0) {
-      toast.error("Please upload at least one property image.");
-      return false;
-    }
-    if (propertyMap.length === 0) {
-      toast.error("Please upload at least one property map.");
-      return false;
-    }
     if (!price || isNaN(price) || price <= 0) {
       toast.error("Please enter a valid price.");
       return false;

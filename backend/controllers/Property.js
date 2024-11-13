@@ -279,11 +279,8 @@ exports.updateProperty = async (req, res) => {
       status,
     } = req.body;
 
-    // Handle the property type (assuming you have a PropertyType model)
     const propertyType = await PropertyType.find({ type_name: type }).lean();
-    console.log(propertyType);
 
-    // Update the property fields if the data is present
     property.name = name || property.name;
     property.description = description || property.description;
     property.property_video = property_video || property.property_video;
@@ -300,11 +297,19 @@ exports.updateProperty = async (req, res) => {
         req.files;
 
       const handleFileArray = async (fileArray) => {
-        // Upload each file to S3 and return the URL
         const uploadedFiles = [];
-        for (let file of fileArray) {
+        if (fileArray.length < 2) {
+          for (let file of fileArray) {
+            try {
+              const fileUrl = await saveAndUploadFile(file);
+              uploadedFiles.push(fileUrl);
+            } catch (error) {
+              console.error("Error uploading file to S3:", error);
+            }
+          }
+        } else {
           try {
-            const fileUrl = await saveAndUploadFile(file);
+            const fileUrl = await saveAndUploadFile(fileArray);
             uploadedFiles.push(fileUrl);
           } catch (error) {
             console.error("Error uploading file to S3:", error);
@@ -313,7 +318,6 @@ exports.updateProperty = async (req, res) => {
         return uploadedFiles;
       };
 
-      // Upload property images, maps, and location maps to S3
       if (property_images) {
         property.property_images = await handleFileArray(property_images);
       }
