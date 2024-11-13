@@ -299,19 +299,27 @@ exports.updateProperty = async (req, res) => {
       const { property_images, property_map, property_location_map } =
         req.files;
 
-      const handleFileArray = async (fileArray) => {
-        // Upload each file to S3 and return the URL
-        const uploadedFiles = [];
-        for (let file of fileArray) {
-          try {
-            const fileUrl = await saveAndUploadFile(file);
-            uploadedFiles.push(fileUrl);
-          } catch (error) {
-            console.error("Error uploading file to S3:", error);
+        const handleFileArray = async (fileArray) => {
+          const uploadedFiles = [];
+          if (fileArray.length < 2) {
+            for (let file of fileArray) {
+              try {
+                const fileUrl = await saveAndUploadFile(file);
+                uploadedFiles.push(fileUrl);
+              } catch (error) {
+                console.error("Error uploading file to S3:", error);
+              }
+            }
+          } else {
+            try {
+              const fileUrl = await saveAndUploadFile(fileArray);
+              uploadedFiles.push(fileUrl);
+            } catch (error) {
+              console.error("Error uploading file to S3:", error);
+            }
           }
-        }
-        return uploadedFiles;
-      };
+          return uploadedFiles;
+        };
 
       // Upload property images, maps, and location maps to S3
       if (property_images) {
