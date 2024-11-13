@@ -22,32 +22,17 @@ const EditProperty = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Fetching propertyData from location state with optional chaining
   const propertyData = location.state?.property || {};
-  console.log(propertyData);
 
-  // State variables for form fields
   const [name, setName] = useState(propertyData.name || "");
-  const [description, setDescription] = useState(
-    propertyData.description || ""
-  );
-  const [propertyImages, setPropertyImages] = useState(
-    propertyData.property_images || []
-  );
-  const [propertyMap, setPropertyMap] = useState(
-    propertyData.property_map || []
-  );
-  const [propertyLocationMap, setPropertyLocationMap] = useState(
-    propertyData.property_location_map || []
-  );
-  const [propertyVideo, setPropertyVideo] = useState(
-    propertyData.property_video || ""
-  );
+  const [description, setDescription] = useState(propertyData.description || "");
+  const [propertyImages, setPropertyImages] = useState(propertyData.property_images || []);
+  const [propertyMap, setPropertyMap] = useState(propertyData.property_map || []);
+  const [propertyLocationMap, setPropertyLocationMap] = useState(propertyData.property_location_map || []);
+  const [propertyVideo, setPropertyVideo] = useState(propertyData.property_video || "");
   const [price, setPrice] = useState(propertyData.price || "");
   const [area, setArea] = useState(propertyData.area || "");
-  const [propertyLocation, setPropertyLocation] = useState(
-    propertyData.location || ""
-  );
+  const [propertyLocation, setPropertyLocation] = useState(propertyData.location || "");
   const [type, setType] = useState(propertyData.type || "");
   const [status, setStatus] = useState(propertyData.status || "available");
   const [propertyTypes, setPropertyTypes] = useState([]);
@@ -71,20 +56,17 @@ const EditProperty = () => {
       [{ align: [] }],
       ["bold", "italic", "underline"],
       ["link"],
-      ["image"], // The built-in image button
+      ["image"],
       [{ color: [] }, { background: [] }],
       ["blockquote", "code-block"],
-      ["clean"], // Clear formatting button
+      ["clean"],
     ],
   };
 
-  // Fetch property types on component mount
   useEffect(() => {
     const fetchPropertyTypes = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/property/propertyTypeAdd"
-        );
+        const response = await axios.get("http://localhost:5000/property/propertyTypeAdd");
         setPropertyTypes(response.data.propertyTypes || []);
       } catch (error) {
         toast.error("Failed to fetch property types.");
@@ -93,12 +75,10 @@ const EditProperty = () => {
     fetchPropertyTypes();
   }, []);
 
-  // Update area whenever propertyData changes
   useEffect(() => {
     setArea(propertyData.area || "");
   }, [propertyData]);
 
-  // Form validation
   const validateForm = () => {
     if (!name) {
       toast.error("Please enter the property name.");
@@ -135,31 +115,27 @@ const EditProperty = () => {
     return true;
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axios.put(
-          `/api/property/propertyUpdate/${propertyData._id}`,
-          {
-            name,
-            description,
-            property_images: propertyImages,
-            property_map: propertyMap,
-            property_location_map: propertyLocationMap,
-            property_video: propertyVideo || "",
-            price,
-            area,
-            location: propertyLocation,
-            type,
-            status,
-          }
-        );
+        const response = await axios.put(`/api/property/propertyUpdate/${propertyData._id}`, {
+          name,
+          description,
+          property_images: propertyImages,
+          property_map: propertyMap,
+          property_location_map: propertyLocationMap,
+          property_video: propertyVideo || "",
+          price,
+          area,
+          location: propertyLocation,
+          type,
+          status,
+        });
 
         if (response.status === 200) {
           toast.success("Property updated successfully!");
-          navigate("/properties"); // Redirect to the properties list or desired page
+          navigate("/properties");
         }
       } catch (error) {
         toast.error(error.response?.data?.msg || "Failed to update property.");
@@ -167,7 +143,6 @@ const EditProperty = () => {
     }
   };
 
-  // Handle file changes
   const handleFileChange = (setter) => (event) => {
     const files = Array.from(event.target.files);
     setter((prev) => [
@@ -201,7 +176,6 @@ const EditProperty = () => {
             />
           </Grid>
 
-          {/* Use ReactQuill for the description field */}
           <Grid item xs={12}>
             <label htmlFor="description">Description</label>
             <ReactQuill
@@ -327,27 +301,27 @@ const EditProperty = () => {
             />
           </Grid>
 
-          <Grid item xs={6}>
-            <FormControl variant="standard" fullWidth required>
-              <InputLabel id="type-label">Property Type</InputLabel>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel id="property-type-label">Property Type</InputLabel>
               <Select
-                labelId="type-label"
-                id="type" 
+                labelId="property-type-label"
+                id="property-type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
                 label="Property Type"
               >
-                {propertyTypes.map((propertyType) => (
-                  <MenuItem key={propertyType._id} value={propertyType._id}>
-                    {propertyType.type_name}
+                {propertyTypes.map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Grid>
 
-          <Grid item xs={6}>
-            <FormControl variant="standard" fullWidth required>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
               <InputLabel id="status-label">Status</InputLabel>
               <Select
                 labelId="status-label"
@@ -358,18 +332,16 @@ const EditProperty = () => {
               >
                 <MenuItem value="available">Available</MenuItem>
                 <MenuItem value="sold">Sold</MenuItem>
-                <MenuItem value="rented">Rented</MenuItem>
               </Select>
             </FormControl>
           </Grid>
 
           <Grid item xs={12}>
             <Button
-              type="submit"
               variant="contained"
               color="primary"
+              type="submit"
               fullWidth
-              sx={{ mt: 3 }}
             >
               Update Property
             </Button>

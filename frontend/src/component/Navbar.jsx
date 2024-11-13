@@ -52,7 +52,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="border-b mb-2 border-gray-200 bg-[#2c3e50] dark:border-gray-700">
+    <nav className="border-b mb-3 border-gray-200 bg-[#2c3e50] dark:border-gray-700 sm:mb-2">
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-2 mx-auto">
         <Link to="/" className="flex items-center" onClick={closeMenu}>
           <img
