@@ -103,7 +103,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full min-h-screen px-5 sm:px-0">
+<div className="flex items-center justify-center w-full h-screen px-0 sm:px-5">
       <ToastContainer />
       <div className="flex w-full max-w-sm overflow-hidden bg-white border rounded-lg shadow-lg lg:max-w-4xl">
         <div

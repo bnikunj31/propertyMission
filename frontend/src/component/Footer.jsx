@@ -3,10 +3,11 @@ import React from "react";
 import logo from "../assets/FooterLogo.png";
 const Footer = () => {
   return (
-    <footer className="pt-8 bg-gray-100 border-t border-gray-300 mt-5">
+    <footer className="pt-8 bg-gray-100 border-t border-gray-300 mt-4 sm:mt-0">
+
       <div className="container grid grid-cols-1 gap-8 px-6 mx-auto sm:grid-cols-2 lg:grid-cols-4 lg:px-16">
         {/* Company Info */}
-        <div className="text-center lg:text-left">  
+        <div className="text-center lg:text-left">
           <img
             src={logo}
             alt="Reality Solutions Logo"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
 import "../Style/Loader.css";
 
 // Cards component
@@ -53,26 +54,27 @@ const Cards = ({ card }) => {
             <p className="card-text">
               <strong>Area:</strong> {card.area}
             </p>
-            
           </div>
           <button
-              className="mt-2 btn w-100 btn-outline-secondary"
-              onClick={handleReadMore}
-              
-            >
-              Read More
-            </button>
+            className="mt-2 btn w-100 btn-outline-secondary"
+            onClick={handleReadMore}
+          >
+            Read More
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-// CardsGrid component with API call to fetch property data
+// CardsGrid component with API call, search filter, and MUI pagination
 const CardsGrid = () => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 20;
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -93,6 +95,18 @@ const CardsGrid = () => {
     fetchProperties();
   }, []);
 
+  const filteredCards = cards.filter((card) =>
+    card.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
+  const startIndex = (currentPage - 1) * cardsPerPage;
+  const currentCards = filteredCards.slice(startIndex, startIndex + cardsPerPage);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   if (loading) {
     return (
       <div className="loader-container">
@@ -107,10 +121,39 @@ const CardsGrid = () => {
 
   return (
     <div className="container">
+      {/* Search Input */}
+      <div className="row mb-4">
+        <div className="col-md-6 offset-md-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Cards Display */}
       <div className="row">
-        {cards.map((card) => (
-          <Cards key={card._id} card={card} />
-        ))}
+        {currentCards.length > 0 ? (
+          currentCards.map((card) => <Cards key={card._id} card={card} />)
+        ) : (
+          <div className="col text-center">
+            <p>No properties found matching your search.</p>
+          </div>
+        )}
+      </div>
+
+      {/* MUI Pagination Controls */}
+      <div className="d-flex justify-content-center mt-4">
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          variant="outlined"
+          shape="rounded"
+        />
       </div>
     </div>
   );
