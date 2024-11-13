@@ -259,12 +259,75 @@ exports.getCategorizeProperties = async (req, res) => {
   }
 };
 
-exports.updateProperty = async (req, res) => {
+const updateProperty = async (req, res) => {
   try {
-    console.log("Params", req.params);
-    console.log("Body", req.body);
-    console.log("Files", req.files);
-  } catch (err) {
-    return res.status(500).json({ message: "Internal Server Error." });
+    const { id } = req.params;
+
+    // Find property by ID
+    let property = await Property.findById(id);
+    if (!property) {
+      return res.status(404).json({ message: "Property not found" });
+    }
+
+    // Destructure the request body to get fields
+    const {
+      name,
+      description,
+      property_video,
+      price,
+      area,
+      location,
+      type,
+      status,
+    } = req.body;
+
+    // Update fields in the property document
+    property.name = name || property.name;
+    property.description = description || property.description;
+    property.property_video = property_video || property.property_video;
+    property.price = price || property.price;
+    property.area = area || property.area;
+    property.location = location || property.location;
+    property.type = type || property.type;
+    property.status = status || property.status;
+
+    // Handle file uploads for images
+    if (req.files) {
+      const { property_images, property_map, property_location_map } =
+        req.files;
+
+      const handleFileArray = (fileArray) =>
+        fileArray.map((file) => {
+          const uploadPath = path.join(__dirname, "../uploads", file.name); // Adjust upload directory
+          file.mv(uploadPath, (err) => {
+            if (err) console.error(err);
+          });
+          return `/uploads/${file.name}`;
+        });
+
+      if (property_images) {
+        property.property_images = handleFileArray(property_images);
+      }
+      if (property_map) {
+        property.property_map = handleFileArray(property_map);
+      }
+      if (property_location_map) {
+        property.property_location_map = handleFileArray(property_location_map);
+      }
+    }
+
+    // Save updated property
+    await property.save();
+
+    // Send success response
+    res.status(200).json({
+      message: "Property updated successfully",
+      property,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
+
+module.exports = updateProperty;

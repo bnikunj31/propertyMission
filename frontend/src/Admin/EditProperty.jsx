@@ -30,15 +30,9 @@ const EditProperty = () => {
   const [description, setDescription] = useState(
     propertyData.description || ""
   );
-  const [propertyImages, setPropertyImages] = useState(
-    propertyData.property_images || []
-  );
-  const [propertyMap, setPropertyMap] = useState(
-    propertyData.property_map || []
-  );
-  const [propertyLocationMap, setPropertyLocationMap] = useState(
-    propertyData.property_location_map || []
-  );
+  const [propertyImages, setPropertyImages] = useState([]);
+  const [propertyMap, setPropertyMap] = useState([]);
+  const [propertyLocationMap, setPropertyLocationMap] = useState([]);
   const [propertyVideo, setPropertyVideo] = useState(
     propertyData.property_video || ""
   );
@@ -86,7 +80,6 @@ const EditProperty = () => {
         const response = await axios.get(
           "http://localhost:5000/property/propertyTypeAdd"
         );
-        console.log("Fetched property types:", response.data.propertyTypes);
         setPropertyTypes(response.data.propertyTypes || []);
       } catch (error) {
         toast.error("Failed to fetch property types.");
@@ -136,21 +129,32 @@ const EditProperty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("property_video", propertyVideo || "");
+      formData.append("price", price);
+      formData.append("area", area);
+      formData.append("location", propertyLocation);
+      formData.append("type", type);
+      formData.append("status", status);
+
+      propertyImages.forEach((file) => {
+        formData.append("property_images", file);
+      });
+      propertyMap.forEach((file) => {
+        formData.append("property_map", file);
+      });
+      propertyLocationMap.forEach((file) => {
+        formData.append("property_location_map", file);
+      });
+
       try {
         const response = await axios.patch(
           `/api/property/propertyUpdate/${propertyData._id}`,
+          formData,
           {
-            name,
-            description,
-            property_images: propertyImages,
-            property_map: propertyMap,
-            property_location_map: propertyLocationMap,
-            property_video: propertyVideo || "",
-            price,
-            area,
-            location: propertyLocation,
-            type,
-            status,
+            headers: { "Content-Type": "multipart/form-data" },
           }
         );
 
@@ -164,13 +168,10 @@ const EditProperty = () => {
     }
   };
 
-  // Handle file upload and update state with file URLs
+  // Handle file selection and update state with the files themselves
   const handleFileChange = (setter) => (event) => {
     const files = Array.from(event.target.files);
-    setter((prev) => [
-      ...prev,
-      ...files.map((file) => URL.createObjectURL(file)),
-    ]);
+    setter((prev) => [...prev, ...files]);
   };
 
   return (
