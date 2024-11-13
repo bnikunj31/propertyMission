@@ -77,7 +77,6 @@ const Register = () => {
     }
   };
 
-  // Google Sign-In Handler
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -88,12 +87,10 @@ const Register = () => {
 
       toast.success("Google Sign-In successful!");
 
-      // Store user data in sessionStorage
       sessionStorage.setItem("name", displayName);
       sessionStorage.setItem("email", email);
       const token = accessToken;
       sessionStorage.setItem("token", token);
-
       navigate("/");
       location.reload();
     } catch (error) {
@@ -233,6 +230,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
