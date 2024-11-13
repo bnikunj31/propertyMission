@@ -33,9 +33,11 @@ const EditProperty = () => {
   const [price, setPrice] = useState(propertyData.price || "");
   const [area, setArea] = useState(propertyData.area || "");
   const [propertyLocation, setPropertyLocation] = useState(propertyData.location || "");
-  const [type, setType] = useState(propertyData.type || "");
+  // const [type, setType] = useState(propertyData.type || "");
   const [status, setStatus] = useState(propertyData.status || "available");
   const [propertyTypes, setPropertyTypes] = useState([]);
+
+  const [type, setType] = useState(propertyTypes.includes(propertyData.type) ? propertyData.type : "");
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -302,7 +304,7 @@ const EditProperty = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
+            {/* <FormControl fullWidth>
               <InputLabel id="property-type-label">Property Type</InputLabel>
               <Select
                 labelId="property-type-label"
@@ -317,7 +319,23 @@ const EditProperty = () => {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
+            <FormControl fullWidth>
+  <InputLabel id="property-type-label">Property Type</InputLabel>
+  <Select
+    labelId="property-type-label"
+    id="property-type"
+    value={type}
+    onChange={(e) => setType(e.target.value)}
+    label="Property Type"
+  >
+    {propertyTypes.map((typeOption) => (
+      <MenuItem key={typeOption} value={typeOption}>
+        {typeOption}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
           </Grid>
 
           <Grid item xs={12} sm={6}>
