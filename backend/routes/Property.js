@@ -1,7 +1,5 @@
 const express = require("express");
 const {
-  addProperty,
-  getPropertyType,
   updateType,
   deleteType,
   getProperties,
@@ -9,6 +7,8 @@ const {
   addCategory,
   getCategorizeProperties,
   updateProperty,
+  getPropertyType,
+  addProperty,
 } = require("../controllers/Property");
 const router = express.Router();
 

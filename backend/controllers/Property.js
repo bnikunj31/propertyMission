@@ -259,17 +259,15 @@ exports.getCategorizeProperties = async (req, res) => {
   }
 };
 
-const updateProperty = async (req, res) => {
+exports.updateProperty = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find property by ID
     let property = await Property.findById(id);
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
 
-    // Destructure the request body to get fields
     const {
       name,
       description,
@@ -281,45 +279,57 @@ const updateProperty = async (req, res) => {
       status,
     } = req.body;
 
-    // Update fields in the property document
+    // Handle the property type (assuming you have a PropertyType model)
+    const propertyType = await PropertyType.find({ type_name: type }).lean();
+    console.log(propertyType);
+
+    // Update the property fields if the data is present
     property.name = name || property.name;
     property.description = description || property.description;
     property.property_video = property_video || property.property_video;
     property.price = price || property.price;
     property.area = area || property.area;
     property.location = location || property.location;
-    property.type = type || property.type;
+    property.type =
+      propertyType.length > 0 ? propertyType[0]._id : property.type; // Ensure you pick the correct property type
     property.status = status || property.status;
 
-    // Handle file uploads for images
+    // Handle file uploads to S3
     if (req.files) {
       const { property_images, property_map, property_location_map } =
         req.files;
 
-      const handleFileArray = (fileArray) =>
-        fileArray.map((file) => {
-          const uploadPath = path.join(__dirname, "../uploads", file.name); // Adjust upload directory
-          file.mv(uploadPath, (err) => {
-            if (err) console.error(err);
-          });
-          return `/uploads/${file.name}`;
-        });
+      const handleFileArray = async (fileArray) => {
+        // Upload each file to S3 and return the URL
+        const uploadedFiles = [];
+        for (let file of fileArray) {
+          try {
+            const fileUrl = await saveAndUploadFile(file);
+            uploadedFiles.push(fileUrl);
+          } catch (error) {
+            console.error("Error uploading file to S3:", error);
+          }
+        }
+        return uploadedFiles;
+      };
 
+      // Upload property images, maps, and location maps to S3
       if (property_images) {
-        property.property_images = handleFileArray(property_images);
+        property.property_images = await handleFileArray(property_images);
       }
       if (property_map) {
-        property.property_map = handleFileArray(property_map);
+        property.property_map = await handleFileArray(property_map);
       }
       if (property_location_map) {
-        property.property_location_map = handleFileArray(property_location_map);
+        property.property_location_map = await handleFileArray(
+          property_location_map
+        );
       }
     }
 
-    // Save updated property
+    // Save the updated property
     await property.save();
 
-    // Send success response
     res.status(200).json({
       message: "Property updated successfully",
       property,
@@ -329,5 +339,3 @@ const updateProperty = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
-
-module.exports = updateProperty;
