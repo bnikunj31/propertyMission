@@ -7,6 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { auth, provider } from "../Google/config"; // Ensure the correct path to your Firebase config
 import { signInWithPopup } from "firebase/auth";
 import "../Style/register.css";
+import RegisterImg from "../assets/signup.jpg"
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -98,16 +99,19 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full h-screen px-5 sm:px-10 md:px-20  lg:px-32 ">
+    <div className="flex items-center justify-center w-full  px-5 sm:px-10 md:px-20  lg:px-32 ">
       <ToastContainer />
       <div className="flex w-full max-w-sm overflow-hidden bg-white border rounded-lg shadow-lg lg:max-w-4xl">
-        <div
-          className="hidden bg-cover md:block lg:w-1/2"
-          style={{
-            backgroundImage:
-              "url(https://www.tailwindtap.com/assets/components/form/userlogin/login_tailwindtap.jpg)",
-          }}
-        ></div>
+      <div
+  className="hidden md:block lg:w-1/2"
+  style={{
+    backgroundImage: `url(${RegisterImg})`,
+    backgroundSize: "cover",      // Ensures the image covers the container
+    backgroundPosition: "center",  // Centers the image within the div
+    backgroundRepeat: "no-repeat", // Prevents tiling of the image
+  }}
+></div>
+
         <div className="w-full p-8 lg:w-1/2">
           <p className="text-xl text-center text-gray-600">
             Create your account

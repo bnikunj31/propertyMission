@@ -50,20 +50,15 @@ const Footer = () => {
 
         {/* More Links */}
         <div className="text-center lg:text-left">
-          <h3 className="mb-4 text-lg font-bold">More Services</h3>
+          <h3 className="mb-4 text-lg font-bold">Additional  Services</h3>
           <ul className="space-y-2">
             <li>
-              <p>Privacy Policy</p>
+              <p>Mutual Funds </p>
             </li>
             <li>
-              <p>Terms of Service</p>
+              <p>Loan</p>
             </li>
-            <li>
-              <p>FAQs</p>
-            </li>
-            <li>
-              <p>Support</p>
-            </li>
+            
           </ul>
         </div>
 
